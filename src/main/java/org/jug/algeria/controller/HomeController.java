@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -50,11 +51,14 @@ public class HomeController {
         return resultList;
     }
     
-    
-    @RequestMapping(value = "/asset/{id}/{accessid}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/asset", method = RequestMethod.POST)
+    public Asset createAsset(@RequestBody Asset asset) {
+    	return assetRepository.save(asset);
+    }
+    /*@RequestMapping(value = "/asset/{id}/{accessid}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Asset createAsset(@PathVariable String id,@PathVariable String accessid) {
         return assetRepository.save(new Asset(id,accessid));
-    }
+    }*/
 
     @RequestMapping(value = "/asset", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Asset> findAllAssets() {
