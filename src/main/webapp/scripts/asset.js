@@ -1,5 +1,5 @@
 function addAsset(){
-    console.log("lost my life" +  document.getElementById('assetid').value);
+    console.log("lost my life" + this.myvar);
     xhr = new XMLHttpRequest();
 var url = "/asset";
 xhr.open("POST", url, true);
@@ -10,7 +10,7 @@ xhr.onreadystatechange = function () {
         console.log(json);
     }
 }
-var data = JSON.stringify({"id":document.getElementById('assetid').value,"accessId":document.getElementById('assetaccessid').value});
+var data = JSON.stringify({"id":this.assetid.value,"accessId":this.assetaccessid.value});
     console.log(data);
 xhr.send(data);
 }

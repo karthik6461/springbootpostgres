@@ -26,6 +26,12 @@ public class HomeController {
     
     @Inject
     SegmentRepository segmentRepository;
+    
+    @Inject
+    StudentRepository studentRepository;
+    
+    @Inject
+    SubjectRepository subjectRepository;
 
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
@@ -91,5 +97,55 @@ public class HomeController {
         });
         return resultList;
     }
+    
+    @RequestMapping(value = "/student", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Student> findAllStudents() {
+        final List<Student> resultList = new ArrayList<>();
+        final Iterable<Student> all = studentRepository.findAll();
+        all.forEach(new Consumer<Student>() {
+            @Override
+            public void accept(Student student) {
+                resultList.add(student);
+            }
+        });
+        return resultList;
+    }
+    
+    @RequestMapping(value = "/student", method = RequestMethod.POST)
+    public Student createStudent(@RequestBody Student student) {
+    	return studentRepository.save(student);
+    }
+    
+    
+    @RequestMapping(value = "/subject", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Subject> findAllSubjects() {
+        final List<Subject> resultList = new ArrayList<>();
+        final Iterable<Subject> all = subjectRepository.findAll();
+        all.forEach(new Consumer<Subject>() {
+            @Override
+            public void accept(Subject subject) {
+                resultList.add(subject);
+            }
+        });
+        return resultList;
+    }
+    
+    @RequestMapping(value = "/subject", method = RequestMethod.POST)
+    public Subject createSubject(@RequestBody Subject subject) {
+    	return subjectRepository.save(subject);
+    }
+    
+    @RequestMapping(value = "/addstudent2subject/{studid}/{subjid}", method = RequestMethod.POST)
+    public Student addStudent2Subject(@PathVariable Long studid,@PathVariable Long subjid) {
+    	Student student = studentRepository.findOne(studid);
+    	Subject subject = subjectRepository.findOne(subjid);
+    	System.out.println(student.getName());
+    	System.out.println(subject.getName());
+    	student.getSubjects().add(subject);
+    	System.out.println(student.getSubjects().size());
+    	//studentRepository.save(student);
+    	return student;
+    }
+    
 
 }
